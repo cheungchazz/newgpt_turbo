@@ -52,17 +52,17 @@
 
 ## 部分功能展示
 
-![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (4).png)
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/001.png)
 
 ## 其他插件
 
 [`midjourney_turbo`](https://github.com/chazzjimel/midjourney_turbo)，可能是目前最完善的基于[`chatgpt-on-wechat`](https://github.com/zhayujie/chatgpt-on-wechat)的插件
 
-![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (2).png)
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/002.png)
 
 ### 授权码插件，未开源，仅展示，包含授权码、邀请码、验证信息鉴权
 
-![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (1).png)
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/003.png)
 
 ## 以下是生活
 
@@ -70,9 +70,9 @@
 
 如果插件好用，喝可乐咖啡都行，谢谢各位大佬！
 
-![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (3).png)
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/004.png)
 
-![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (1).jpg)
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/005.jpg)
 
 
 
