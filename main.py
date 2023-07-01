@@ -33,7 +33,7 @@ def create_channel_object():
         return WechatChannel()
 
 
-@plugins.register(name="NewGpt_Turbo", desc="GPT函数调用，极速联网", desire_priority=99, version="0.1", author="chazzjimel", )
+@plugins.register(name="NewGpt_Turbo", desc="GPT函数调用，极速联网", desire_priority=-888, version="0.1", author="chazzjimel", )
 class NewGpt(Plugin):
     def __init__(self):
         super().__init__()
