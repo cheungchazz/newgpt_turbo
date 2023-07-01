@@ -52,29 +52,27 @@
 
 ## 部分功能展示
 
-![](C:\Users\admin\Desktop\未标题-1.png)
+![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (4).png)
 
 ## 其他插件
 
 [`midjourney_turbo`](https://github.com/chazzjimel/midjourney_turbo)，可能是目前最完善的基于[`chatgpt-on-wechat`](https://github.com/zhayujie/chatgpt-on-wechat)的插件
 
-![](C:\Users\admin\Desktop\008.png)
+![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (2).png)
 
 ### 授权码插件，未开源，仅展示，包含授权码、邀请码、验证信息鉴权
 
-![](C:\Users\admin\Desktop\002.png)
+![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (1).png)
 
 ## 以下是生活
 
 我开了星球，以后一些商业化插件会在星球内弄，也会根据成员的建议出更多插件或者优化主项目功能。
 
-如果插件好用，喝可乐咖啡都行，谢谢各位大佬
+如果插件好用，喝可乐咖啡都行，谢谢各位大佬！
 
-<img src="C:\Users\admin\Desktop\0033.png"  />
+![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (3).png)
 
-<img src="C:\Users\admin\Desktop\0044.jpg" style="zoom:50%;" />
-
-
+![](C:\Users\admin\Desktop\newgpt_turbo\images\888 (1).jpg)
 
 
 
