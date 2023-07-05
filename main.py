@@ -50,7 +50,7 @@ class NewGpt(Plugin):
                 config = json.load(f)
                 logger.debug(f"[newgpt_turbo] config content: {config}")
                 openai.api_key = conf().get("open_ai_api_key")
-                openai.api_base = conf().get("open_ai_api_base")
+                openai.api_base = conf().get("open_ai_api_base","https://api.openai.com/v1")
                 self.alapi_key = config["alapi_key"]
                 self.bing_subscription_key = config["bing_subscription_key"]
                 self.google_api_key = config["google_api_key"]
