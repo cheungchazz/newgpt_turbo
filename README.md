@@ -100,6 +100,5 @@ session_manager.py改动代码如下图所示，改动原因是把函数处理�
 
 **如果本插件好用，star、请我喝可乐咖啡都行，谢谢各位大佬！**
 
-![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/yueqian.png)
-
+![](https://github.com/chazzjimel/midjourney_turbo/blob/main/doc/images/yueqian.png)
 
