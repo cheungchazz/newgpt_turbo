@@ -98,13 +98,8 @@ session_manager.py改动代码如下图所示，改动原因是把函数处理�
 
 **个人优化后的bot体验，4.0接口**（如果提示要激活码，请等我看到信息后直接开权限回复了即可）
 
-![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/070502.png)
-
 **如果本插件好用，star、请我喝可乐咖啡都行，谢谢各位大佬！**
 
-![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/004.png)
-
-![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/005.jpg)
-
+![](https://github.com/chazzjimel/newgpt_turbo/blob/main/images/yueqian.png)
 
 
