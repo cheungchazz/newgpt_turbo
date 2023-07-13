@@ -11,6 +11,7 @@ from channel.chat_message import ChatMessage
 from channel.wechat.wechat_channel import WechatChannel
 from channel.wechatcom.wechatcomapp_channel import WechatComAppChannel
 from channel.wechatmp.wechatmp_channel import WechatMPChannel
+# from channel.wework.wework_channel import WeworkChannel
 from config import conf
 from plugins import *
 from common.log import logger
@@ -29,16 +30,20 @@ def create_channel_object():
         return WechatMPChannel()
     elif channel_type == 'wechatcom_app':
         return WechatComAppChannel()
+    # elif channel_type == 'wework':
+    #     return WeworkChannel()
     else:
         return WechatChannel()
 
 
-@plugins.register(name="NewGpt_Turbo", desc="GPT函数调用，极速联网", desire_priority=-888, version="0.1", author="chazzjimel", )
+@plugins.register(name="NewGpt_Turbo", desc="GPT函数调用，极速联网", desire_priority=99, version="0.1",
+                  author="chazzjimel", )
 class NewGpt(Plugin):
     def __init__(self):
         super().__init__()
         curdir = os.path.dirname(__file__)
         config_path = os.path.join(curdir, "config.json")
+        functions_path = os.path.join(curdir, "lib", "functions.json")
         logger.info(f"[newgpt_turbo] current directory: {curdir}")
         logger.info(f"加载配置文件: {config_path}")
         if not os.path.exists(config_path):
@@ -46,11 +51,14 @@ class NewGpt(Plugin):
             config_path = os.path.join(curdir, "config.json.template")
             logger.info(f"[newgpt_turbo] config template path: {config_path}")
         try:
+            with open(functions_path, 'r', encoding="utf-8") as f:
+                functions = json.load(f)
+                self.functions = functions
             with open(config_path, "r", encoding="utf-8") as f:
                 config = json.load(f)
                 logger.debug(f"[newgpt_turbo] config content: {config}")
                 openai.api_key = conf().get("open_ai_api_key")
-                openai.api_base = conf().get("open_ai_api_base","https://api.openai.com/v1")
+                openai.api_base = conf().get("open_ai_api_base", "https://api.openai.com/v1")
                 self.alapi_key = config["alapi_key"]
                 self.bing_subscription_key = config["bing_subscription_key"]
                 self.google_api_key = config["google_api_key"]
@@ -80,7 +88,7 @@ class NewGpt(Plugin):
         reply = Reply()  # 创建一个回复对象
         reply.type = ReplyType.TEXT
         context = e_context['context'].content[:]
-        logger.debug("context:%s" % context)
+        logger.info("newgpt_turbo query=%s" % context)
         all_sessions = Bridge().get_bot("chat").sessions
         session = all_sessions.session_query(context, e_context["context"]["session_id"], add_to_history=False)
         logger.debug("session.messages:%s" % session.messages)
@@ -111,192 +119,7 @@ class NewGpt(Plugin):
         response = openai.ChatCompletion.create(
             model=self.functions_openai_model,
             messages=input_messages,
-            functions=[
-                {
-                    "name": "get_weather",
-                    "description": "获取全球指定城市的天气信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "cityNm": {
-                                "type": "string",
-                                "description": "City names using Chinese characters, such as: 广州, 深圳, 东京, 伦敦",
-                            },
-
-                        },
-                        "required": ["cityNm"],
-                    },
-                },
-                {
-                    "name": "get_morning_news",
-                    "description": "获取每日早报信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {}
-                    }
-                },
-                {
-                    "name": "get_hotlist",
-                    "description": "获取各种平台热榜信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "description": "type类型: '知乎':zhihu', '微博':weibo', '微信':weixin', '百度':baidu', '头条':toutiao', '163':163', 'xl', '36氪':36k', 'hitory', 'sspai', 'csdn', 'juejin', 'bilibili', 'douyin', '52pojie', 'v2ex', 'hostloc'",
-                            }
-                        },
-                        "required": ["type"],
-                    }
-                },
-                {
-                    "name": "search",
-                    "description": "默认搜索工具，谷歌和必应的搜索引擎",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "query": {
-                                "type": "string",
-                                "description": "提供需要搜索的关键词信息即可",
-                            },
-                            "count": {
-                                "type": "string",
-                                "description": "搜索页数,如无指定几页，默认2，最大值10",
-                            }
-
-                        },
-                        "required": ["query", "count"],
-                    },
-                },
-                {
-                    "name": "get_oil_price",
-                    "description": "获取中国全国油价信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {}
-                    }
-                },
-                {
-                    "name": "get_Constellation_analysis",
-                    "description": "获取十二星座运势",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "star": {
-                                "type": "string",
-                                "description": """       
-                                        "白羊座": "aries",
-                                        "金牛座": "taurus",
-                                        "双子座": "gemini",
-                                        "巨蟹座": "cancer",
-                                        "狮子座": "leo",
-                                        "处女座": "virgo",
-                                        "天秤座": "libra",
-                                        "天蝎座": "scorpio",
-                                        "射手座": "sagittarius",
-                                        "摩羯座": "capricorn",
-                                        "水瓶座": "aquarius",
-                                        "双鱼座": "pisces"""
-                            },
-
-                        },
-                        "required": ["star"],
-                    },
-                },
-                {
-                    "name": "music_search",
-                    "description": "音乐搜索，获得音乐信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "keyword": {
-                                "type": "string",
-                                "description": "需要搜索的音乐关键词信息",
-                            },
-
-                        },
-                        "required": ["keyword"],
-                    },
-                },
-                {
-                    "name": "get_datetime",
-                    "description": "获取全球指定城市实时日期时间和星期信息",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "city_en": {
-                                "type": "string",
-                                "description": "需要查询的城市小写英文名，英文名中间空格用-代替，如beijing，new-york",
-                            },
-
-                        },
-                        "required": ["city_en"],
-                    },
-                },
-                {
-                    "name": "get_url",
-                    "description": "访问并获取URL的内容",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "url": {
-                                "type": "string",
-                                "description": "需要访问的指定URL",
-                            },
-
-                        },
-                        "required": ["url"],
-                    },
-                },
-                {
-                    "name": "get_stock_info",
-                    "description": "获取上市股票实时信息的函数",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "stock_names": {
-                                "type": "string",
-                                "description": "股票中文名字简写，如果有多个，请空格隔开，不能有多余字符，如平安银行则传递平安、中新股份则传递中新",
-                            },
-
-                        },
-                        "required": ["stock_names"],
-                    },
-                },
-                {
-                    "name": "search_bing_news",
-                    "description": "实时新闻搜索引擎",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "query": {
-                                "type": "string",
-                                "description": "提供需要搜索的新闻关键词信息",
-                            },
-                            "count": {
-                                "type": "string",
-                                "description": "搜索页数,如无指定几页，默认10，最大值50",
-                            }
-
-                        },
-                        "required": ["query", "count"],
-                    },
-                },
-                {
-                    "name": "get_video_url",
-                    "description": "通过原始URL解析可下载视频的URL函数",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "url": {
-                                "type": "string",
-                                "description": "提供需要解析的URL",
-                            },
-                        },
-                        "required": ["url"],
-                    },
-                },
-            ],
+            functions=self.functions,
             function_call="auto",
         )
 
@@ -360,7 +183,8 @@ class NewGpt(Plugin):
                         com_reply.content = "☑️正在给您实时联网谷歌搜索\n⏳整理深度数据需要几分钟，请您耐心等待..."
                     if self.comapp is not None:
                         self.comapp.send(com_reply, e_context['context'])
-                    function_response = google.search_google(search_terms=search_query, base_url=self.google_base_url,iterations=1, count=1,
+                    function_response = google.search_google(search_terms=search_query, base_url=self.google_base_url,
+                                                             iterations=1, count=1,
                                                              api_key=self.google_api_key, cx_id=self.google_cx_id,
                                                              model=self.assistant_openai_model)
                     logger.debug(f"google.search_google url: {self.google_base_url}")
@@ -448,18 +272,14 @@ class NewGpt(Plugin):
             current_date = datetime.now().strftime("%Y年%m月%d日%H时%M分")
             if e_context["context"]["isgroup"]:
                 prompt = self.prompt.format(time=current_date, bot_name=msg.to_user_nickname,
-                                                 name=msg.actual_user_nickname, content=content,
-                                                 function_response=function_response)
+                                            name=msg.actual_user_nickname, content=content,
+                                            function_response=function_response)
             else:
                 prompt = self.prompt.format(time=current_date, bot_name=msg.to_user_nickname,
-                                                 name=msg.from_user_nickname, content=content,
-                                                 function_response=function_response)
+                                            name=msg.from_user_nickname, content=content,
+                                            function_response=function_response)
             # 将函数的返回结果发送给第二个模型
             logger.debug(f"prompt :" + prompt)
-            # # content = context
-            # # function_call = message["function_call"]
-            # # function_call_str = json.dumps(function_call)
-            # message_str = json.dumps(message)
             logger.debug("messages: %s", [{"role": "system", "content": prompt}])
             second_response = openai.ChatCompletion.create(
                 model=self.assistant_openai_model,
@@ -476,7 +296,7 @@ class NewGpt(Plugin):
 
         else:
             # 如果模型不希望调用函数，直接打印其响应
-            logger.debug(f"Model response: {message['content']}")  # 打印模型的响应
+            logger.info("模型响应无函数调用，跳过处理")  # 打印模型的响应
             return
 
     def get_help_text(self, verbose=False, **kwargs):
@@ -489,3 +309,5 @@ class NewGpt(Plugin):
         help_text = "newgpt_turbo，极速联网无需特殊指令，前置识别\n🔎谷歌搜索、🔎新闻搜索\n🗞每日早报、☀全球天气\n⌚实时时间、⛽全国油价\n🌌星座运势、🎵音乐（网易云）\n🔥各类热榜信息、📹短视频解析等"
         # 返回帮助文本
         return help_text
+
+
