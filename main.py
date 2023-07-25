@@ -11,8 +11,6 @@ from channel.chat_message import ChatMessage
 from channel.wechat.wechat_channel import WechatChannel
 from channel.wechatcom.wechatcomapp_channel import WechatComAppChannel
 from channel.wechatmp.wechatmp_channel import WechatMPChannel
-from channel.wechatnt.ntchat_channel import NtchatChannel
-# from channel.wework.wework_channel import WeworkChannel
 from config import conf
 from plugins import *
 from common.log import logger
@@ -34,6 +32,7 @@ def create_channel_object():
     # elif channel_type == 'wework':
     #     return WeworkChannel()
     elif channel_type == 'ntchat':
+        from channel.wechatnt.ntchat_channel import NtchatChannel
         return NtchatChannel()
     else:
         return WechatChannel()
