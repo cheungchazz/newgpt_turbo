@@ -63,8 +63,8 @@ class NewGpt(Plugin):
             with open(config_path, "r", encoding="utf-8") as f:
                 config = json.load(f)
                 logger.debug(f"[newgpt_turbo] config content: {config}")
-                openai.api_key = conf().get("open_ai_api_key")
-                openai.api_base = conf().get("open_ai_api_base", "https://api.openai.com/v1")
+                self.openai_api_key = config.get("open_ai_api_key")
+                self.openai_api_base = config.get("open_ai_api_base", "https://api.openai.com/v1")
                 self.alapi_key = config["alapi_key"]
                 self.bing_subscription_key = config["bing_subscription_key"]
                 self.google_api_key = config["google_api_key"]
@@ -122,6 +122,8 @@ class NewGpt(Plugin):
         content = e_context['context'].content[:]
         messages = []
         logger.debug(f"User input: {input_messages}")  # 用户输入
+        openai.api_key = self.openai_api_key
+        openai.api_base = self.openai_api_base
         response = openai.ChatCompletion.create(
             model=self.functions_openai_model,
             messages=input_messages,
