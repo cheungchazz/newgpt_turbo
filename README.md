@@ -80,13 +80,3 @@ session_manager.py改动代码如下图所示，改动原因是把函数处理�
 ------
 
 
-
-**如果本插件好用，请给star，号被举报了，以后不会再提供开源插件，拜拜了您勒！**
-
-
-
-### **纯交流群，看不爽的别进**
-
-![](https://github.com/chazzjimel/chatgpt-on-wechat/blob/master/docs/images/bot.jpg)
-
-添加bot，发送  **进群：【一胜Net】AIGC交流** 给bot即可
